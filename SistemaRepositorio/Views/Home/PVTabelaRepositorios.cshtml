@@ -1,0 +1,90 @@
+﻿@{
+    List<RepositorioModel> listaRepositorios = ViewBag.listaReps;
+}
+
+<style>
+    .tabela-repositorios {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+        .tabela-repositorios th, .tabela-repositorios td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .tabela-repositorios th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+</style>
+
+@if(listaRepositorios.Count == 0)
+{
+    <h4>Nenhum repositório encontrado.</h4>
+}
+else
+{
+
+    <table class="tabela-repositorios">
+        <thead>
+            <tr>
+                <th>ID Repositório</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Linguagem</th>
+                <th>Data Última Atualização</th>
+                <th>Dono</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+                foreach (var rep in listaRepositorios)
+                {
+                    <tr>
+                        <td>@rep.IdRepositorio</td>
+                        <td><a href="@Url.Action("DetalhesRepositorio", "Home", new { idRepositorio = rep.IdRepositorio })">@rep.Nome</a></td>
+                        <td>@rep.Descricao</td>
+                        <td>@rep.Linguagem</td>
+                        <td>@rep.DtUltimaAtt</td>
+                        <td>@rep.DonoRepositorio</td>
+                        <td><button type="button" class="btn btn-danger btnExcluir" idRep="@rep.IdRepositorio">Apagar</button></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+}
+
+<script>
+
+    $(".btnExcluir").on('click', function () {
+        $.ajax({
+            url: '@Url.Action("ExcluirRepositorio", "Home")',
+            type: 'POST',
+            data: { IdRepositorio: this.getAttribute('idRep') },
+            success: function (result) {
+                $.ajax({
+                    url: '@Url.Action("PartialViewTabelaRepositorios", "Home")',
+                    type: 'GET',
+                    success: function (result) {
+                        $('#partialViewContainer').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+</script>
+
+
+

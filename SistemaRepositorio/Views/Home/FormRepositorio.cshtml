@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewData["Title"] = "Adicionar Repositório";
+}
+
+<h1>Adicionar Repositório</h1>
+
+<form action="/Home/SalvarRepositorio" method="post">
+    <!-- Campos do formulário aqui -->
+    <label for="nome">Nome:</label>
+    <input type="text" id="Nome" name="Nome" required>
+    <br />
+    <br />
+    <label for="descricao">Descrição:</label>
+    <textarea id="Descricao" name="Descricao" required></textarea>
+    <br />
+    <br />
+    <label for="nome">Linguagem:</label>
+    <input type="text" id="Linguagem" name="Linguagem" required>
+    <br />
+    <br />
+    <label for="nome">Data Última Atualização:</label>
+    <input type="date" id="DtUltimaAtt" name="DtUltimaAtt" required>
+    <br />
+    <br />
+    <label for="dono">Dono do Repositório:</label>
+    <input type="text" id="DonoRepositorio" name="DonoRepositorio" required>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-success">Salvar</button>
+</form>

@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Cadastro de Repositórios";
+    List<RepositorioModel> listaRepositorios = ViewBag.listaReps;
+}
+
+<style>
+    .tabela-repositorios {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .tabela-repositorios th, .tabela-repositorios td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .tabela-repositorios th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    #filtroBusca {
+        display: inline;
+        width: 150px;
+    }
+
+    #btnAdd {
+        margin-right: 100px;
+    }
+
+    #btnVerFav{
+        margin-left: 100px;
+    }
+
+
+</style>
+
+<h3>Meus Repositórios:</h3>
+<br />
+<a href="/Home/FormRepositorio" class="btn btn-success" id="btnAdd">+ Adicionar</a>
+
+<div class="btn-group">
+    <input type="text" class="form-control" id="filtroBusca" placeholder="Buscar..." />
+    <button type="button" class=" btn btn-primary" id="btnPesquisar">Pesquisar!</button>
+</div>
+
+<button type="button" class="btn btn-warning" id="btnVerFav">Ver Favoritos</button>
+<br />
+<br />
+<div id="partialViewContainer"></div>
+
+<script>
+    $.ajax({
+        url: '@Url.Action("PartialViewTabelaRepositorios", "Home")',
+        type: 'GET',
+        success: function (result) {
+            $('#partialViewContainer').html(result);
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+
+    $('#btnPesquisar').on('click', function () {
+        $.ajax({
+            url: '@Url.Action("PartialViewTabelaRepositorios", "Home")',
+            type: 'POST',
+            data: { filtro: $('#filtroBusca').val() },
+            success: function (result) {
+                $('#partialViewContainer').html(result);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    $('#btnVerFav').on('click', function () {
+        $.ajax({
+            url: '@Url.Action("PartialViewTabelaRepositorios", "Home")',
+            type: 'POST',
+            data: { filtro: "", isFav: true  },
+            success: function (result) {
+                $('#partialViewContainer').html(result);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+</script>

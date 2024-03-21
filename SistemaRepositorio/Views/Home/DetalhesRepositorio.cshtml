@@ -1,0 +1,26 @@
+﻿@{
+    RepositorioModel repositorio = ViewBag.repositorio;
+    bool isFavorito = ViewBag.favorito;
+}
+
+
+<h3>Detalhes do Repositório - @repositorio.Nome</h3>
+
+<ul class="list-group">
+    <li class="list-group-item"><strong>ID:</strong> @repositorio.IdRepositorio</li>
+    <li class="list-group-item"><strong>Nome:</strong> @repositorio.Nome</li>
+    <li class="list-group-item"><strong>Descrição:</strong> @repositorio.Descricao</li>
+    <li class="list-group-item"><strong>Linguagem:</strong> @repositorio.Linguagem</li>
+    <li class="list-group-item"><strong>Data da Última Atualização:</strong> @repositorio.DtUltimaAtt</li>
+    <li class="list-group-item"><strong>Dono do Repositório:</strong> @repositorio.DonoRepositorio</li>
+
+</ul>
+<br />
+@if (!isFavorito)
+{
+    <a href="@Url.Action("MudarFavorito", "Home", new { idRepositorio = repositorio.IdRepositorio })" class="btn btn-success" id="btnFavorito" idRep="@repositorio.IdRepositorio">Adicionar aos Favoritos</a>
+}
+else
+{
+    <a href="@Url.Action("MudarFavorito", "Home", new { idRepositorio = repositorio.IdRepositorio })" class="btn btn-danger" id="btnFavorito" idRep="@repositorio.IdRepositorio">Remover Favorito</a>
+}
